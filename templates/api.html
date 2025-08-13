@@ -7,19 +7,34 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-<div class="token_info">
-    Для использования API вам необходим Ваш API токен: {{ token }}
+<div class="token_info" id="token_info">
+
 
 </div>
-{% else %}
-<div class="no_token_info">
-    У вас нет токена и вам будет доступен только 1 API метод
+
+<div class="no_token_info" id="no_token_info">
+
 </div>
-{% endif %}
+
 
 <div class="api_btn">
     <button class="api_btn1"><a href="/api/docs">Перейти к API</a></button>
 </div>
+<script>
+    const token = localStorage.getItem('authToken');
+    if (token) {
+        const container = document.getElementById('token_info');
+        const item = document.createElement('div');
+        item.innerHTML = `Для использования API вам необходим Ваш API токен: ${token}`;
+        container.appendChild(item);
+        }
+    else {
+        const container = document.getElementById('no_token_info');
+        const item = document.createElement('div');
+        item.innerHTML = `У вас нет токена и вам будет доступен только 1 API метод`;
+        container.appendChild(item);
+    }
 
+
+</script>
 {% endblock content %}

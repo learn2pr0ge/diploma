@@ -629,11 +629,8 @@ class ClaimCreatePersonal(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 def apidescription(request):
-    try:
-        token = Token.objects.get(user=request.user)
-        return render(request, 'api.html', {'token': token.key})
-    except Token.DoesNotExist:
-        return render(request, 'api.html', {'error': 'У вас нет токена доступа к API'})
+    return render(request, 'api.html')
+
 
 
 
