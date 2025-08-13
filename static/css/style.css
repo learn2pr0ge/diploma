@@ -1,0 +1,444 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+a:hover,
+a:visited,
+a:focus,
+a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+@font-face {
+    font-family: 'AstraSans';
+    src: url('../fonts/PT-Astra-Sans_Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    width: 100%;
+    height: 100px;
+    background-color: #163E6C;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: 'AstraSans', sans-serif;
+
+}
+
+.logo_company img {
+    margin-left: 20px;
+    width: 170px;
+    height: 90px;
+
+}
+
+@media (max-width: 768px) {
+    .logo_company img {
+        margin-left: 1px;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.header_phone {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    font-size: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .header_phone {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 10px;
+        font-size: 15px;
+    }
+}
+
+.auth-button {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    /*box-shadow: none;*/
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 20px;
+}
+
+
+
+@media (max-width: 768px) {
+    .auth-button {
+        font-size: 15px;
+        padding: 10px 10px;
+        right: 5px;
+        top: 10px;
+    }
+}
+
+.auth-button:hover {
+    opacity: 0.3;
+    cursor: pointer;
+
+}
+
+.main_text{
+    font-size: 30px;
+    margin-top: 50px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+@media (max-width: 768px) {
+    .main_text{
+        font-size: 16px;
+        margin-top: 60px;
+        left: 10%;
+        transform: translateX(-5%);
+    }
+}
+
+main {
+    background-color: #EBE6D6 ;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'AstraSans', sans-serif;
+    color: #163E6C;
+    padding-bottom: 20px;
+}
+
+.main_text_2{
+    font-size: 30px;
+    margin-top: 30px;
+
+
+}
+
+@media (max-width: 768px) {
+    .main_text_2{
+        font-size: 15px;
+        margin-left: 5px;
+    }
+}
+
+.main_input input {
+    width: 250px;
+    height: 25px;
+    border: 1px solid #163E6C;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 15px;
+    color: #163E6C;
+    margin-top: 50px;
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+    .main_input input {
+        width: 120px;
+        height: 20px;
+        border: 1px solid #163E6C;
+        left: 5%;
+        transform: translateX(-5%);
+        font-size: 12px;
+    }
+}
+
+.main_input button {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    width: 250px;
+    height: 30px;
+    padding-left: 10px;
+    font-size: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: absolute;
+    left: 60%;
+    transform: translateX(-50%);
+    margin-top: 50px;
+}
+
+.main_input button:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .main_input button {
+        width: 100px;
+        height: 25px;
+        border: 1px solid #163E6C;
+        font-size: 12px;
+        left: 70%
+    }
+}
+
+.result_text {
+    margin-top: 180px;
+    font-size: 20px;
+    left: 26%;
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+@media (max-width: 768px) {
+    .result_text {
+        margin-top: 150px;
+        font-size: 15px;
+        left: 5%;
+        transform: translateX(-5%);
+    }
+}
+
+.result_text_2 {
+    margin-top: 200px;
+    font-size: 20px;
+    margin-left: 5px;
+
+}
+
+@media (max-width: 768px) {
+    .result_text_2 {
+        margin-top: 120px;
+        font-size: 15px;
+    }
+}
+
+.search_result {
+    margin-top: 100px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .search_result {
+        margin-top: 20px;
+        gap: 10px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        box-sizing: border-box;
+    }
+}
+
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+    font-family: sans-serif;
+    margin-top: 20px;
+    height: 100%;
+}
+
+.responsive-table th,
+.responsive-table td {
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.responsive-table th {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .search-result_memberzone {     /* исправлена опечатка класса */
+        margin-top: 20px;
+        gap: 10px;
+        align-items: stretch;
+        justify-content: flex-start;
+        box-sizing: border-box;
+    }
+
+    /* Если хочешь карточный вид на мобилке — оставляем, но без переполнений */
+    .responsive-table thead {
+        display: none;
+    }
+
+    .responsive-table,
+    .responsive-table tbody,
+    .responsive-table tr,
+    .responsive-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .responsive-table tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #000;
+    }
+
+    .responsive-table td {
+        text-align: right;
+        position: relative;
+        font-size: 11px;
+
+        /* ширина подписи слева + зазор, вместо проблемного 50% */
+        --label-w: 120px;
+        padding-left: calc(var(--label-w) + 16px);
+
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .responsive-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: var(--label-w);
+        font-weight: bold;
+        text-align: left;
+        white-space: normal;
+    }
+}
+
+footer {
+    width: 100%;
+    height: 100px;
+    background-color: #163E6C;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    font-family: 'AstraSans', sans-serif;
+    font-size: 20px;
+    box-sizing: border-box;
+
+
+}
+
+.tel_footer {
+    margin-left: 20px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.api_link {
+    margin-left: auto;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .api_link {
+
+        font-size: 15px;
+    }
+}
+
+.api_link a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .tel_footer {
+        margin-left: 1px;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+}
+
+.copyright {
+    margin-left: auto;
+    margin-right: 20px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .copyright {
+
+        margin-right: 1px;
+        font-size: 13px;
+    }
+}
+
+
+@media (max-width: 1500px) {
+    header {
+        width: 130vw;
+        height: 100px;
+        background-color: #163E6C;
+        color: white;
+    }
+    main {
+        width: 130vw;
+    }
+    footer {
+        width: 130vw;
+
+    }
+}
+
+@media (max-width: 768px) {
+     header {
+        width: 100%;
+        height: 100px;
+        background-color: #163E6C;
+        color: white;
+    }
+    main {
+        width: 100%;
+    }
+    footer {
+        width: 100%;
+
+    }
+
+}
+

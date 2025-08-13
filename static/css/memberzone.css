@@ -1,0 +1,439 @@
+@media (max-width: 1810px) {
+    header {
+        width: 150vw;
+        height: 100px;
+        background-color: #163E6C;
+        color: white;
+    }
+    main {
+        width: 150vw;
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+    footer {
+        width: 150vw;
+
+    }
+}
+
+@media (max-width: 768px) {
+     header {
+        width: 100%;
+        height: 100px;
+        background-color: #163E6C;
+        color: white;
+    }
+    main {
+        width: 100%;
+    }
+    footer {
+        width: 100%;
+
+    }
+
+}
+
+a {
+    color: inherit;
+    text-decoration: underline; /* подчёркивание всегда */
+}
+
+a:hover,
+a:focus {
+    text-decoration: underline; /* можно оставить, но по сути и так будет */
+}
+
+a:visited {
+    text-decoration: underline;
+}
+
+
+.main_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 10px;
+    font-family: 'AstraSans', sans-serif;
+    color: #163E6C;
+    margin-bottom: 20px;
+
+}
+
+@media (max-width: 768px) {
+    .main_wrapper {
+        margin-top: 20px;
+    }
+}
+
+.main_title {
+    font-size: 25px;
+    margin-top: 30px;
+    position: absolute;
+    left: 30px;
+    /*transform: translateX(-50%);*/
+}
+
+@media (max-width: 768px) {
+    .main_title {
+        font-size: 15px;
+        margin-top: 50px;
+        left: 10px
+        /*left: 6%;*/
+        /*transform: translateX(-5%);*/
+    }
+}
+
+.client_info {
+    margin-top: 100px;
+    font-size: 20px;
+    position: absolute;
+    left: 30px;
+    /*left: 9%;*/
+    /*transform: translateX(-50%);*/
+}
+
+@media (max-width: 768px) {
+    .client_info {
+        font-size: 15px;
+        margin-top: 100px;
+        left: 10px;
+        /*transform: translateX(-5%);*/
+    }
+}
+
+.main_title_1 {
+    font-size: 20px;
+    margin-top: 150px;
+    margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .main_title_1 {
+        font-size: 15px;
+        margin-top: 150px;
+    }
+}
+
+.main_title_1 img {
+    width: 40px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+.search-result_memberzone {
+    margin-top: 100px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+
+}
+
+.search-result_memberzone b {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 80px;
+}
+
+.table-wrapper {
+
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Базовая таблица */
+.responsive-table {
+    width: max(100%, 800px);
+    border-collapse: collapse;
+    border: 1px solid black;
+    font-family: 'AstraSans',sans-serif;
+    margin-top: 20px;
+    table-layout: auto;
+    box-sizing: border-box;
+}
+
+.responsive-table th,
+.responsive-table td {
+    border: 1px solid black;
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 12px;
+}
+
+.responsive-table th {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+/* ----- Мобилка ----- */
+@media (max-width: 768px) {
+    .search-result_memberzone {
+        margin-top: 20px;
+        gap: 10px;
+        align-items: stretch;
+        justify-content: flex-start;
+        box-sizing: border-box;
+    }
+
+
+    .responsive-table thead {
+        display: none;
+    }
+
+    .responsive-table,
+    .responsive-table tbody,
+    .responsive-table tr,
+    .responsive-table td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .responsive-table tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #000;
+    }
+
+    .responsive-table td {
+        text-align: right;
+        position: relative;
+        font-size: 11px;
+
+        /* ширина подписи слева + зазор, вместо проблемного 50% */
+        --label-w: 120px;
+        padding-left: calc(var(--label-w) + 16px);
+
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    .responsive-table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: var(--label-w);
+        font-weight: bold;
+        text-align: left;
+        white-space: normal;
+    }
+}
+
+.logout button {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    /*box-shadow: none;*/
+    position: absolute;
+    right: 20px;
+    top: 120px;
+    font-size: 20px;
+}
+
+
+.logout button:hover{
+    opacity: 0.3;
+    cursor: pointer;
+
+}
+
+.logout button a {
+
+    color: inherit;
+    text-decoration: none;
+}
+
+.logout button a:hover,
+.logout button a:visited,
+.logout button a:focus,
+.logout button a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .logout button {
+        font-size: 15px;
+        padding: 10px 10px;
+        right: 10px;
+        top: 105px;
+    }
+}
+
+.main_filter {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    font-family: 'AstraSans', sans-serif;
+    font-size: 17px;
+    margin-left: 20px;
+}
+
+.filter-form {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-form select,
+.filter-form input,
+.filter-form button {
+  padding: 6px 8px;
+  border: 1px solid #163E6C;
+  border-radius: 5px;
+  font-family: 'AstraSans', sans-serif;
+    font: inherit;
+}
+.filter-form button {
+  background: #163E6C;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+.filter-form button:hover { opacity: .9; }
+
+@media (max-width: 768px) {
+    .main_filter {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 10px;
+        font-family: 'AstraSans', sans-serif;
+        font-size: 15px;
+    }
+}
+
+.filter_reset a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.main_menu_wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 140px;
+    padding: 10px;
+    font-family: 'AstraSans', sans-serif;
+    font-size: 20px;
+    height: 80px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+@media (max-width: 768px) {
+    .main_menu_wrapper {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-left: 10px;
+        padding: 10px;
+        font-size: 17px;
+        margin-top: 10px;
+    }
+}
+
+.main_menu_wrapper button {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    /*box-shadow: none;*/
+
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .main_menu_wrapper button {
+        font-size: 15px;
+        padding: 10px 10px;
+
+    }
+}
+
+.carlist_button:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.to_list:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.to_list {
+    width: 150px;
+}
+
+@media (max-width: 768px) {
+    .to_list {
+        width: 76px;
+    }
+}
+
+.claims_list:hover {
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.main_menu_wrapper button a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.add_car button {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    /*box-shadow: none;*/
+    font-size: 20px;
+    margin: 30px;
+}
+
+
+.add_car button:hover{
+    opacity: 0.3;
+    cursor: pointer;
+
+}
+
+.add_car button a {
+    color: inherit;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .add_car button {
+        font-size: 15px;
+        padding: 10px 10px;
+    }
+}

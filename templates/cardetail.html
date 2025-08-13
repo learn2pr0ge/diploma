@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Данные об авто Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/cardetail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main_title">
+Основная панель
+</div>
+<div class="logout">
+        <button><a href="/">Выход</a></button>
+    </div>
+
+<div class="car_info">
+    Машина: {{car.model_technic.model_technic_name}}
+</div>
+
+<div class="factory_number">
+    Заводской номер: {{car.factory_number}}
+</div>
+
+<div class="main_title_1">
+    Информация по проведенных ТО вашей техники
+    <img src="{% static 'img/icon_todetail.png' %}" alt="TO icon">
+</div>
+
+<div class="main_menu_wrapper">
+    <button id="carlist_button" class="carlist_button">Общая инфо</button>
+    <button id="to_list" class="to_list" type="submit">ТО</button>
+    <button id="claims_list" class="claims_list" type="submit">Рекламации</button>
+
+
+    </div>
+
+<div id="search-result_memberzone" class="search-result_memberzone"></div>
+<div class="table-wrapper">
+    </div>
+
+<div class="button_wrapper">
+<div class="add_car" id="add_car">
+        <button id="add_car_button" class="add_car_button" type="submit"><a href="/memberzone/cars/createtopersonal/">Добавить ТО</a></button>
+    </div>
+{% if request.user.service_organization or request.user.management %}
+<div class="add_claim" id="add_claim">
+<button id="add_claim_button" class="add_claim_button" type="submit"><a href="/memberzone/cars/createclaimpersonal/">Добавить рекламацию</a></button>
+</div>
+{% endif %}
+<button class="home_btn"><a href="/memberzone/">Назад</a></button>
+    </div>
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+{{ car.factory_number|json_script:"car-fn" }}
+<script src="{% static 'js/tocar.js' %}" defer></script>
+<script src="{% static 'js/tomaininfo.js' %}"></script>
+<script src="{% static 'js/claiminfo.js' %}"></script>
+
+{% endblock content %}

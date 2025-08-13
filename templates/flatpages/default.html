@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Компания Силант</title>
+    {% csrf_token %}
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% load static %}
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+    <link rel="icon" href="{% static 'assets/favicon.ico' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'assets/favicon.ico' %}" type="image/x-icon">
+
+</head>
+
+<body>
+<header>
+<div class="logo_company">
+    <img src="{% static 'img/logo.png' %}" alt="logo">
+</div>
+    <div class="header_phone">+7-8352-20-12-09</div>
+    <div class="header_link">
+<button class="auth-button"><a href="/accounts/login/">Авторизация</a></button>
+        </div>
+    <div class="main_text">Электронная сервисная книжка "Мой Силант"</div>
+</header>
+
+<main>
+    <div class="main_text_2">
+Проверьте комплектацию и технические характеристики техники Силант
+        </div>
+    <div class="main_input">
+        <form id="search-form" method="post">
+
+        <input type="text" id="factory_number" name="factory_number" placeholder="Заводской номер:" required>
+        <button class="search_button" type="submit">Поиск</button>
+        </form>
+    </div>
+    <div class="result_text">Результат поиска:</div>
+    <div class="result_text_2">Информация о комплектации и технических характеристиках Вашей техники</div>
+    <div class="search_result" id="search-result">
+
+    </div>
+</main>
+
+
+<footer>
+<div class="tel_footer">+7-8352-20-12-09</div>
+    <div class="api_link">
+        <a href="/api/start/">Описание API</a>
+    </div>
+    <div class="copyright">Мой Силант 2022 &copy; </div>
+</footer>
+
+<script src="{% static 'js/carfetch.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Информация об API Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/api.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="token_info">
+    Для использования API вам необходим Ваш API токен: {{ token }}
+
+</div>
+{% else %}
+<div class="no_token_info">
+    У вас нет токена и вам будет доступен только 1 API метод
+</div>
+{% endif %}
+
+<div class="api_btn">
+    <button class="api_btn1"><a href="/api/docs">Перейти к API</a></button>
+</div>
+
+{% endblock content %}

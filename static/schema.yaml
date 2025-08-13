@@ -1,0 +1,300 @@
+openapi: 3.0.3
+info:
+  title: API Мой Силант
+  version: 1.0.0
+  description: |
+    REST API для машин, ТО и рекламаций.
+    Аутентификация: `Для тестирования методов нажимайте Authorize и вводите Token <ваш_токен>`.
+servers:
+  - url: http://127.0.0.1:8000
+tags:
+  - name: Cars
+    description: Операции с машинами
+  - name: Maintenance
+    description: Техническое обслуживание (ТО)
+  - name: Claims
+    description: Рекламации
+
+paths:
+  /api/cars/:
+    post:
+      tags: [Cars]
+      summary: Поиск машины по заводскому номеру
+      description: Возвращает список машин с заданным `factory_number`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [factory_number]
+              properties:
+                factory_number:
+                  type: string
+                  example: "ЗАВ-1000"
+      responses:
+        "200":
+          description: Найденные машины
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /api/cars/list/:
+    post:
+      tags: [Cars]
+      summary: Список машин пользователя
+      description: |
+        Возвращает машины, доступные текущему пользователю:
+        - клиент — свои машины;
+        - сервисная компания — машины своей компании;
+        - management — все машины.
+      security: [{ TokenAuth: [] }]
+      responses:
+        "200":
+          description: Ок
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Car"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /api/cars/filter/:
+    post:
+      tags: [Cars]
+      summary: Фильтр машин по полям
+      description: Фильтрация списка машин по разрешённым полям.
+      security: [{ TokenAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CarFilterRequest"
+            examples:
+              by_factory_number:
+                summary: Поиск по заводскому номеру
+                value: { filter: "factory_number", value: "ЗАВ-1000" }
+      responses:
+        "200":
+          description: Список машин
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Car" }
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /api/cars/to/:
+    post:
+      tags: [Maintenance]
+      summary: Список ТО пользователя
+      description: |
+        Возвращает ТО, доступные текущему пользователю (аналогично правилам доступа к машинам).
+      security: [{ TokenAuth: [] }]
+      responses:
+        "200":
+          description: Ок
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/TechnicalMaintenance" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+  /api/cars/claims/:
+    post:
+      tags: [Claims]
+      summary: Список рекламаций пользователя
+      security: [{ TokenAuth: [] }]
+      responses:
+        "200":
+          description: Ок
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Claim" }
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+
+
+components:
+  securitySchemes:
+    TokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Для тестирования методов нажимайте Authorize и вводите Token <ваш_токен>`"
+
+  responses:
+    Unauthorized:
+      description: Неавторизован
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    BadRequest:
+      description: Ошибка запроса
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Введите правильное имя фильтра"
+
+    Car:
+      type: object
+      description: Машина
+      properties:
+        factory_number:
+          type: string
+          example: "ЗАВ-1000"
+        model_technic:
+          anyOf: [{ type: integer }, { type: string }]
+          description: ID или название модели техники (в зависимости от сериализатора)
+        model_engine:
+          anyOf: [{ type: integer }, { type: string }]
+          description: ID или название модели двигателя
+        model_clutch:
+          anyOf: [{ type: integer }, { type: string }]
+        managed_bridge_model:
+          anyOf: [{ type: integer }, { type: string }]
+        driven_axle_model:
+          anyOf: [{ type: integer }, { type: string }]
+        client_name:
+          type: string
+          example: "ООО «Ромашка»"
+        agreement_date:
+          type: string
+          format: date
+          example: "2025-01-15"
+        service_company:
+          anyOf: [{ type: integer }, { type: string }]
+          description: ID или название сервисной компании
+        id:
+          type: integer
+          example: 42
+
+    TechnicalMaintenance:
+      type: object
+      description: Запись ТО
+      properties:
+        tm_car:
+          anyOf: [{ type: integer }, { type: string }]
+          description: ID машины или её номер
+        tm_service_company:
+          anyOf: [{ type: integer }, { type: string }]
+        tm_type:
+          anyOf: [{ type: integer }, { type: string }]
+          description: Тип ТО (например, ТО-1)
+        tm_number_date:
+          type: string
+          example: "№123 от 2025-08-01"
+        tm_date:
+          type: string
+          format: date
+          example: "2025-08-01"
+        tm_hours:
+          type: number
+          format: float
+          example: 350
+        tm_number:
+          type: string
+          example: "№123"
+
+    Claim:
+      type: object
+      description: Рекламация
+      properties:
+        claim_car:
+          anyOf: [{ type: integer }, { type: string }]
+        claim_service_company:
+          anyOf: [{ type: integer }, { type: string }]
+        claim_recover:
+          anyOf: [{ type: integer }, { type: string }]
+          description: Способ устранения
+        claim_part:
+          anyOf: [{ type: integer }, { type: string }]
+          description: Узел/деталь
+        claim_date:
+          type: string
+          format: date
+          example: "2025-07-10"
+        claim_description:
+          type: string
+          example: "Посторонний шум в коробке передач"
+        claim_hours:
+          type: number
+          format: float
+          example: 420
+        claim_used_parts:
+          type: string
+          example: "Подшипник 6204, сальник 30x52x10"
+        claim_finish_date:
+          type: string
+          format: date
+          nullable: true
+        claim_downtime:
+          type: number
+          format: float
+          example: 3
+
+    CarFilterRequest:
+      type: object
+      required: [filter, value]
+      properties:
+        filter:
+          type: string
+          description: Поле для фильтрации
+          enum:
+            - factory_number
+            - model_technic__model_technic_name
+            - model_engine__model_engine_name
+            - model_clutch__model_clutch_name
+            - managed_bridge_model__model_bridge_name
+            - driven_axle_model__model_axle_name
+        value:
+          type: string
+          example: "ЗАВ-1000"
+
+    TOFilterRequest:
+      type: object
+      required: [filter, value]
+      properties:
+        filter:
+          type: string
+          enum:
+            - tm_car__factory_number
+            - tm_service_company__model_company_name
+            - tm_type__model_tm_name
+        value:
+          type: string
+          example: "ТО-1"
+
+    ClaimFilterRequest:
+      type: object
+      required: [filter, value]
+      properties:
+        filter:
+          type: string
+          enum:
+            - claim_car__factory_number
+            - claim_service_company__model_company_name
+            - claim_recover__model_claimrecover_name
+            - claim_part__model_claimpart_name
+        value:
+          type: string
+          example: "Замена узла"

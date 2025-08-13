@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Создание новой рекламации Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/createcar.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main_title">Создание новой рекламации
+<img src="{% static 'img/icon_claim2.png' %}" alt="Car icon">
+</div>
+<form action="" method="post" class="createcar_form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.media }}
+    <input type="submit" class="submit-button" value="Сохранить" />
+    <button class="home_btn"><a href="/memberzone/">Назад</a></button>
+</form>
+
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

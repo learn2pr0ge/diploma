@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Данные о модели двигателя Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/car.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main_title">Данные о модели двигателя
+<img src="{% static 'img/icon_engine.png' %}" alt="Car icon">
+</div>
+
+<div class="main_info">
+
+    <div class="title_name">
+Название двигателя: {{engine.model_engine_name}}
+        </div>
+    <div class="title_desc">
+Описание двигателя: {{engine.model_engine_desc}}
+        </div>
+
+</div>
+<div class="nav_btn">
+{% if request.user.management %}
+<button class="home_btn"><a href="/memberzone/cars/createengine/">Добавить модель двигателя</a></button>
+{% endif %}
+<button class="home_btn"><a href="/memberzone/">Назад</a></button>
+    </div>
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

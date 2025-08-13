@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Данные о модели ведущего моста Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/car.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main_title">Данные о модели ведущего моста
+<img src="{% static 'img/icon_axel.png' %}" alt="Axel icon">
+</div>
+
+<div class="main_info">
+
+    <div class="title_name">
+Название модели: {{model_axle.model_axle_name}}
+        </div>
+    <div class="title_desc">
+Описание модели: {{model_axle.model_axle_desc}}
+        </div>
+
+</div>
+<div class="nav_btn">
+{% if request.user.management %}
+<button class="home_btn"><a href="/memberzone/cars/createaxle/">Добавить модель ведущего моста</a></button>
+{% endif %}
+<button class="home_btn"><a href="/memberzone/">Назад</a></button>
+    </div>
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Создание нового узла отказа Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/createcar.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if request.user.management %}
+<div class="main_title">Создание нового узла отказа
+<img src="{% static 'img/icon_claim1.png' %}" alt="Car icon">
+</div>
+<form action="" method="post" class="createcar_form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.media }}
+    <input type="submit" class="submit-button" value="Сохранить" />
+    <button class="home_btn"><a href="/memberzone/">Назад</a></button>
+</form>
+{% else %}
+<div class="noaccess">
+Нет доступа к этой странице
+    </div>
+{% endif %}
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

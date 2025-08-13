@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Добавление новой модели ведущего моста Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/createcar.css' %}">
+{% endblock %}
+
+{% block content %}
+{% if request.user.management %}
+<div class="main_title">Добавление новой модели ведущего моста
+<img src="{% static 'img/icon_axel.png' %}" alt="Trans icon">
+</div>
+<form action="" method="post" class="createcar_form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ form.media }}
+    <input type="submit" class="submit-button" value="Сохранить" />
+    <button class="home_btn"><a href="/memberzone/">Назад</a></button>
+</form>
+{% else %}
+<div class="noaccess">
+Нет доступа к этой странице
+    </div>
+{% endif %}
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

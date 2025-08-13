@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Клиентская зона Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/memberzone.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="main_wrapper">
+<div class="main_title">
+Основная панель
+</div>
+    {% if request.user.client_name %}
+    <div class="client_info"> Роль: Клиент </div>
+    {% endif %}
+    {% if request.user.service_organization %}
+    <div class="client_info"> Роль: Сервисная организация</div>
+    {% endif %}
+    {% if request.user.management %}
+    <div class="client_info"> Роль: Менеджмент</div>
+    {% endif %}
+    <div class="logout">
+        <button><a href="/">Выход</a></button>
+    </div>
+    <div class="main_title_1">Информация о комплектации и технических характеристиках Вашей техники
+    <img src="{% static 'img/icon_main.png' %}" alt="Car icon">
+        </div>
+
+    </div>
+    <div class="main_menu_wrapper">
+    <button id="carlist_button" class="carlist_button"><a href="/memberzone/">Общая инфо</a></button>
+    <button id="to_list" class="to_list" type="submit">ТО</button>
+    <button id="claims_list" class="claims_list" type="submit">Рекламации</button>
+
+
+    </div>
+    <div class="main_filter" id="main_filter">
+    <form class="filter-form" id="filter-form" method="get" action="/search/">
+  <label for="field">Искать по:</label>
+  <select id="field" name="field" required>
+    <option value="" disabled selected>Выберите поле</option>
+      <option value="factory_number">Зав. номер машины</option>
+    <option value="model_technic__model_technic_name">Модель техники</option>
+    <option value="model_engine__model_engine_name">Модель двигателя</option>
+    <option value="model_clutch__model_clutch_name">Модель трансмиссии</option>
+    <option value="managed_bridge_model__model_bridge_name">Модель управляемого моста</option>
+    <option value="driven_axle_model__model_axle_name">Модель ведущего моста</option>
+
+  </select>
+
+  <label for="query" class="visually-hidden">Значение</label>
+  <input id="query" name="q" type="text" placeholder="Введите значение…" required>
+
+  <button type="submit">Поиск</button>
+        <button class="filter_reset" type="reset"><a href="/memberzone/">Сброс</a></button>
+</form>
+</div>
+<div id="search-result_memberzone" class="search-result_memberzone"></div>
+<div class="table-wrapper">
+    </div>
+    {% if request.user.management %}
+    <div class="add_car" id="add_car">
+        <button id="add_car_button" class="add_car_button" type="submit"><a href="/memberzone/cars/create/">Добавить машину</a></button>
+    </div>
+    {% endif %}
+
+
+
+
+
+<script src="{% static 'js/mainfetch.js' %}"></script>
+<script>
+    localStorage.setItem("authToken", "{{ token }}");
+</script>
+<script src="{% static 'js/filtercar.js' %}"></script>
+<script src="{% static 'js/tofetch.js' %}"></script>
+<script src="{% static 'js/claimsfetch.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Данные о сервисной компании Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/car.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main_title">Данные о сервисной компании
+<img src="{% static 'img/icon_service.png' %}" alt="Service icon">
+</div>
+
+<div class="main_info">
+
+    <div class="title_name">
+Название компании: {{service_company.model_company_name}}
+        </div>
+    <div class="title_desc">
+Описание компании: {{service_company.model_company_desc}}
+        </div>
+
+</div>
+<div class="nav_btn">
+{% if request.user.management %}
+<button class="home_btn"><a href="/memberzone/cars/createservice/">Добавить сервисную компанию</a></button>
+{% endif %}
+<button class="home_btn"><a href="/memberzone/">Назад</a></button>
+    </div>
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Данные об узле отказа Силант{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/car.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main_title">Данные об узле отказа
+<img src="{% static 'img/icon_claim1.png' %}" alt="Service icon">
+</div>
+
+<div class="main_info">
+
+    <div class="title_name">
+Название детали: {{claim_part.model_claimpart_name}}
+        </div>
+    <div class="title_desc">
+Описание детали: {{claim_part.model_claimpart_desc}}
+        </div>
+
+</div>
+<div class="nav_btn">
+{% if request.user.management %}
+<button class="home_btn"><a href="/memberzone/cars/createclaimpart/">Добавить узел отказа</a></button>
+{% endif %}
+<button class="home_btn"><a href="/memberzone/">Назад</a></button>
+    </div>
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
+
+{% endblock content %}

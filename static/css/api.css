@@ -1,0 +1,50 @@
+.token_info {
+    margin-top: 40px;
+    font-size: 20px;
+}
+
+.no_token_info {
+    margin-top: 40px;
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .token_info {
+        font-size: 15px;
+    }
+    .no_token_info {
+        font-size: 15px;
+    }
+}
+
+.api_btn1 {
+    background-color: #163E6C;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'AstraSans', sans-serif;
+    /*transition: background-color 0.3s ease, transform 0.2s ease;*/
+    box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.08);
+    /*box-shadow: none;*/
+    font-size: 20px;
+    margin-top: 100px;
+}
+
+
+
+@media (max-width: 768px) {
+    .api_btn1 {
+        font-size: 15px;
+        padding: 10px 10px;
+        right: 5px;
+        top: 10px;
+    }
+}
+
+.api_btn1:hover {
+    opacity: 0.3;
+    cursor: pointer;
+
+}
