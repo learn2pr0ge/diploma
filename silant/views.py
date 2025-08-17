@@ -323,12 +323,12 @@ class TOListSort(APIView):
         else:
             sort = f'-{sort}'
         if request.user.client_name:
-            cars = Technicalmaintenance.objects.filter(client_name=request.user.client_name).order_by(sort)
+            cars = Technicalmaintenance.objects.filter(tm_car__client_name=request.user.client_name).order_by(sort)
             serializer = TOSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
             cars = Technicalmaintenance.objects.filter(
-                service_company__model_company_name=request.user.service_organization).order_by(sort)
+                tm_service_company__model_company_name=request.user.service_organization).order_by(sort)
             serializer = TOSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:
@@ -352,12 +352,12 @@ class ClaimListSort(APIView):
         else:
             sort = f'-{sort}'
         if request.user.client_name:
-            cars = Claimservice.objects.filter(client_name=request.user.client_name).order_by(sort)
+            cars = Claimservice.objects.filter(claim_car__client_name=request.user.client_name).order_by(sort)
             serializer = ClaimserviceSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
             cars = Claimservice.objects.filter(
-                service_company__model_company_name=request.user.service_organization).order_by(sort)
+                claim_service_company__model_company_name=request.user.service_organization).order_by(sort)
             serializer = ClaimserviceSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:

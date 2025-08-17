@@ -558,7 +558,7 @@ function onHeaderClickTo1(d,value, filter) {
         const dir = (currentSort2.col === col && currentSort2.dir === 'desc') ? 'asc' : 'desc';
         currentSort2 = {col, dir};
         //словарь индекс = название ячейки базы
-        const base_dict1 = {
+        const base_dict_tm = {
             0: 'tm_type__model_tm_name',
             1: 'tm_date',
             2: 'tm_hours',
@@ -567,7 +567,7 @@ function onHeaderClickTo1(d,value, filter) {
             5: 'tm_service_company__model_company_name',
             6: 'tm_car__factory_number',
         };
-        const sort = base_dict1[col];
+        const sort = base_dict_tm[col];
         const direct = dir;
         fetchFilter1(value, filter, sort , direct);
 }
