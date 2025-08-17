@@ -277,6 +277,98 @@ class CarList(APIView):
             serializer = CarListSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
+# вывод машин с сортировкой по переменной
+
+class CarListSort(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'factory_number', 'model_technic__model_technic_name', 'model_engine__model_engine_name', 'engine_factory_number',
+                   'model_clutch__model_clutch_name', 'clutch_factory_number', 'managed_bridge_model__model_bridge_name',
+                   'driven_axle_model__model_axle_name', 'driven_axle_factory_number', 'managed_bridge_factory_number','agreement_number','agreement_date', 'receiver', 'receiver_address', 'configuration', 'client_name', 'service_company', 'asc','desc'}
+        if not sort and direct or sort and direct not in ALLOWED:
+            return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
+        if request.user.client_name:
+            cars = Car.objects.filter(client_name=request.user.client_name).order_by(sort)
+            serializer = CarListSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.service_organization:
+            cars = Car.objects.filter(service_company__model_company_name=request.user.service_organization).order_by(sort)
+            serializer = CarListSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.management:
+            cars = Car.objects.all().order_by(sort)
+            serializer = CarListSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+# вывод ТО с сортировкой по переменной
+
+class TOListSort(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'tm_date','tm_hours','tm_number','tm_number_date','tm_car__factory_number', 'tm_service_company__model_company_name', 'tm_type__model_tm_name' ,'asc','desc'}
+        if not sort and direct or sort and direct not in ALLOWED:
+            return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
+        if request.user.client_name:
+            cars = Technicalmaintenance.objects.filter(client_name=request.user.client_name).order_by(sort)
+            serializer = TOSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.service_organization:
+            cars = Technicalmaintenance.objects.filter(
+                service_company__model_company_name=request.user.service_organization).order_by(sort)
+            serializer = TOSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.management:
+            cars = Technicalmaintenance.objects.all().order_by(sort)
+            serializer = TOSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+#вывод рекламаций с сортировкой по переменной
+
+class ClaimListSort(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'claim_car__factory_number', 'claim_service_company__model_company_name', 'claim_recover__model_claimrecover_name','claim_part__model_claimpart_name','claim_date','claim_hours','claim_description','asc','desc','claim_used_parts','claim_finish_date','claim_downtime'}
+        if not sort and direct or sort and direct not in ALLOWED:
+            return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
+        if request.user.client_name:
+            cars = Claimservice.objects.filter(client_name=request.user.client_name).order_by(sort)
+            serializer = ClaimserviceSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.service_organization:
+            cars = Claimservice.objects.filter(
+                service_company__model_company_name=request.user.service_organization).order_by(sort)
+            serializer = ClaimserviceSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif request.user.management:
+            cars = Claimservice.objects.all().order_by(sort)
+            serializer = ClaimserviceSerializer(cars, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+
+#вывод полного списка TO
 
 class TOList(APIView):
     permission_classes = [IsAuthenticated]
@@ -320,20 +412,25 @@ class FilterView(APIView):
     def post(self, request):
         filter = request.data.get('filter')
         value = request.data.get('value')
-        ALLOWED = {'factory_number', 'model_technic__model_technic_name', 'model_engine__model_engine_name', 'model_clutch__model_clutch_name', 'managed_bridge_model__model_bridge_name', 'driven_axle_model__model_axle_name'}
-        if not filter or filter not in ALLOWED:
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'factory_number', 'model_technic__model_technic_name', 'model_engine__model_engine_name', 'model_clutch__model_clutch_name', 'managed_bridge_model__model_bridge_name', 'driven_axle_model__model_axle_name', 'asc', 'desc','engine_factory_number', 'clutch_factory_number', 'driven_axle_factory_number', 'managed_bridge_factory_number','agreement_date', 'receiver', 'receiver_address', 'configuration', 'client_name', 'asc','desc','model_technic__model_technic_name','service_company__model_company_name'}
+        if not filter and sort and direct or filter and sort and direct not in ALLOWED:
             return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
-
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
         if request.user.client_name:
-            cars = Car.objects.filter(client_name=request.user.client_name, **{filter: value}).order_by('-agreement_date')
+            cars = Car.objects.filter(client_name=request.user.client_name, **{filter: value}).order_by(sort)
             serializer = CarListSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
-            cars = Car.objects.filter(service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by('-agreement_date')
+            cars = Car.objects.filter(service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by(sort)
             serializer = CarListSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:
-            cars = Car.objects.filter(**{filter: value}).order_by('-agreement_date')
+            cars = Car.objects.filter(**{filter: value}).order_by(sort)
             serializer = CarListSerializer(cars, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -345,19 +442,26 @@ class FilterTOView(APIView):
     def post(self, request):
         filter = request.data.get('filter')
         value = request.data.get('value')
-        ALLOWED = {'tm_car__factory_number', 'tm_service_company__model_company_name', 'tm_type__model_tm_name'}
-        if not filter or filter not in ALLOWED:
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'tm_date', 'tm_hours', 'tm_number', 'tm_number_date', 'tm_car__factory_number',
+                   'tm_service_company__model_company_name', 'tm_type__model_tm_name', 'asc', 'desc'}
+        if not filter and sort and direct or filter and sort and direct not in ALLOWED:
             return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
         if request.user.client_name:
-            technical_maintenance = Technicalmaintenance.objects.filter(tm_car__client_name=request.user.client_name, **{filter: value}).order_by('-tm_date')
+            technical_maintenance = Technicalmaintenance.objects.filter(tm_car__client_name=request.user.client_name, **{filter: value}).order_by(sort)
             serializer = TOSerializer(technical_maintenance, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
-            technical_maintenance = Technicalmaintenance.objects.filter(tm_service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by('-tm_date')
+            technical_maintenance = Technicalmaintenance.objects.filter(tm_service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by(sort)
             serializer = TOSerializer(technical_maintenance, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:
-            technical_maintenance = Technicalmaintenance.objects.filter(**{filter: value}).order_by('-tm_date')
+            technical_maintenance = Technicalmaintenance.objects.filter(**{filter: value}).order_by(sort)
             serializer = TOSerializer(technical_maintenance, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -369,20 +473,26 @@ class FilterClaimView(APIView):
     def post(self,request):
         filter = request.data.get('filter')
         value = request.data.get('value')
-        ALLOWED = {'claim_car__factory_number', 'claim_service_company__model_company_name', 'claim_recover__model_claimrecover_name','claim_part__model_claimpart_name'}
+        sort = request.data.get('sort_by')
+        direct = request.data.get('direction')
+        ALLOWED = {'claim_car__factory_number', 'claim_service_company__model_company_name', 'claim_recover__model_claimrecover_name','claim_part__model_claimpart_name','claim_date','claim_hours','claim_description','asc','desc','claim_used_parts','claim_finish_date','claim_downtime'}
 
-        if not filter or filter not in ALLOWED:
+        if not filter and sort and direct or filter and sort and direct not in ALLOWED:
             return Response({'error': 'Введите правильное имя фильтра'}, status=status.HTTP_400_BAD_REQUEST)
+        if direct == 'asc':
+            sort = f'{sort}'
+        else:
+            sort = f'-{sort}'
         if request.user.client_name:
-            claims = Claimservice.objects.filter(claim_car__client_name=request.user.client_name, **{filter: value}).order_by('-claim_date')
+            claims = Claimservice.objects.filter(claim_car__client_name=request.user.client_name, **{filter: value}).order_by(sort)
             serializer = ClaimserviceSerializer(claims, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
-            claims = Claimservice.objects.filter(claim_service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by('-claim_date')
+            claims = Claimservice.objects.filter(claim_service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by(sort)
             serializer = ClaimserviceSerializer(claims, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:
-            claims = Claimservice.objects.filter(**{filter: value}).order_by('-claim_date')
+            claims = Claimservice.objects.filter(**{filter: value}).order_by(sort)
             serializer = ClaimserviceSerializer(claims, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
 

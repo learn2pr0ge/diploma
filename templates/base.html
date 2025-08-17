@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>{% block title %}Компания Силант{% endblock %}</title>
     {% csrf_token %}
     <meta name="csrf-token" content="{{ csrf_token }}">
+
     {% load static %}
 
     <link href="{% static 'css/style.css' %}" rel="stylesheet" />
@@ -16,8 +18,9 @@
     <img src="{% static 'img/logo.png' %}" alt="logo">
 </div>
     <div class="header_phone">+7-8352-20-12-09</div>
-<button class="auth-button">Авторизация</button>
     <div class="main_text">Электронная сервисная книжка "Мой Силант"</div>
+<button class="auth-button">Авторизация</button>
+
 </header>
 <main>
   {% block content %}
@@ -30,7 +33,6 @@
     </div>
     <div class="copyright">Мой Силант 2022 &copy; </div>
 </footer>
-
 
 </body>
 </html>

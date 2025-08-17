@@ -8,7 +8,7 @@
     font-size: 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .token_info {
         font-size: 15px;
     }
@@ -34,7 +34,7 @@
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .api_btn1 {
         font-size: 15px;
         padding: 10px 10px;

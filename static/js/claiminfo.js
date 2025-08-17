@@ -1,14 +1,26 @@
 document.getElementById("claims_list").addEventListener("click", function(e) {
     e.preventDefault();
+    const token = localStorage.getItem('authToken');
+    const container = document.getElementById("search-result_memberzone");
+    container.innerHTML = "";
 
+    if (!container) return;
+    if (!token) {
+        container.innerHTML = '<b>Нет токена авторизации</b>';
+        return;
+    }
+    fetchClaimData();
+
+    });
+    function fetchClaimData(sort='claim_date', direct='desc', d = undefined) {
     const container = document.getElementById("search-result_memberzone");
     const token = localStorage.getItem('authToken');
-    container.innerHTML = "";
     const makeCarUrl = (factoryNumber) => `/memberzone/listcars/${encodeURIComponent(factoryNumber)}/`;
     const makeServiceUrl = (serviceNumber) => `/memberzone/listservice/${encodeURIComponent(serviceNumber)}/`;
     const makeClaimUrl = (claimNumber) => `/memberzone/claimpart/${encodeURIComponent(claimNumber)}/`;
     const makeClaimRecoverUrl = (claimRecoverNumber) => `/memberzone/claimrecover/${encodeURIComponent(claimRecoverNumber)}/`;
     const FACTORY_NUMBER = JSON.parse(document.getElementById('car-fn').textContent);
+
 
     fetch("/api/cars/filterclaims/", {
         method: "POST",
@@ -20,6 +32,8 @@ document.getElementById("claims_list").addEventListener("click", function(e) {
         body: JSON.stringify({
             filter: 'claim_car__factory_number',
             value: FACTORY_NUMBER,
+            sort_by: sort,
+            direction: direct,
         }),
     })
         .then(async res => {
@@ -46,10 +60,20 @@ document.getElementById("claims_list").addEventListener("click", function(e) {
             // thead
             const thead = document.createElement("thead");
             const headerRow = document.createElement("tr");
-            headers.forEach(key => {
+            headers.forEach((key, idx) => {
                 const th = document.createElement("th");
-                th.textContent = key;
                 headerRow.appendChild(th);
+                th.setAttribute("aria-sort", "none");
+
+                  const btn = document.createElement("button");
+                  btn.type = "button";
+                  btn.className = "th-btn";
+                  btn.dataset.col = idx;     // номер колонки
+                  btn.textContent = key;     // надпись
+                  btn.addEventListener("click", (y) => onHeaderClickClaimsData(y));
+
+                  th.appendChild(btn);
+                  headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
             table.appendChild(thead);
@@ -117,6 +141,32 @@ document.getElementById("claims_list").addEventListener("click", function(e) {
         .catch(err => {
             console.error(err);
             container.innerHTML = `<b>Ошибка: ${err.message}</b>`;
-        });
 
-})
+
+});
+
+}
+let currentSort6 = {col: null, dir: 'desc'};
+function onHeaderClickClaimsData(y) {
+    const col = +y.currentTarget.dataset.col;
+    const dir = (currentSort6.col === col && currentSort6.dir === 'desc') ? 'asc' : 'desc';
+    currentSort6 = {col, dir};
+    //словарь индекс = название ячейки базы
+    const base_dict_claims = {
+        0: 'claim_date',
+        1: 'claim_hours',
+        2: 'claim_part__model_claimpart_name',
+        3: 'claim_description',
+        4: 'claim_recover__model_claimrecover_name',
+        5: 'claim_used_parts',
+        6: 'claim_finish_date',
+        7: 'claim_downtime',
+        8: 'claim_service_company__model_company_name',
+        9: 'claim_car__factory_number',
+
+    };
+    const sort = base_dict_claims[col];
+    const direct = dir;
+    fetchClaimData(sort, direct);
+
+}

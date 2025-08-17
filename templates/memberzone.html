@@ -56,9 +56,11 @@
         <button class="filter_reset" type="reset"><a href="/memberzone/">Сброс</a></button>
 </form>
 </div>
+
 <div id="search-result_memberzone" class="search-result_memberzone"></div>
-<div class="table-wrapper">
-    </div>
+
+
+
     {% if request.user.management %}
     <div class="add_car" id="add_car">
         <button id="add_car_button" class="add_car_button" type="submit"><a href="/memberzone/cars/create/">Добавить машину</a></button>
@@ -73,7 +75,8 @@
 <script>
     localStorage.setItem("authToken", "{{ token }}");
 </script>
-<script src="{% static 'js/filtercar.js' %}"></script>
+<script src="{% static 'js/filtercar.js' %}?v={{ now|date:'U' }}"></script>
 <script src="{% static 'js/tofetch.js' %}"></script>
 <script src="{% static 'js/claimsfetch.js' %}"></script>
+
 {% endblock content %}

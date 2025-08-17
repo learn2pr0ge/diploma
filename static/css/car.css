@@ -6,7 +6,7 @@
     font-family: 'AstraSans', sans-serif;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .main_title {
         font-size: 15px;
     }
@@ -43,7 +43,7 @@
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .submit-button {
         font-size: 15px;
         padding: 10px 10px;
@@ -70,7 +70,7 @@
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .home_btn {
         font-size: 15px;
         padding: 10px 10px;
@@ -109,4 +109,14 @@
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.th-btn{
+  all: unset;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.th-btn:focus-visible {
+  outline: 2px solid #163E6C;
+  border-radius: 2px;
 }

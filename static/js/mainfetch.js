@@ -19,13 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     fetch("/api/cars/list/", {
-        method: "POST",                 // если у тебя GET — поменяй
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
             "Authorization": `Token ${token}`,
         },
-        // body: JSON.stringify({})        // если бек не ждёт тело — удали строку
+
     })
         .then(async res => {
             if (!res.ok) {
@@ -51,10 +51,20 @@ document.addEventListener('DOMContentLoaded', () => {
             // thead
             const thead = document.createElement("thead");
             const headerRow = document.createElement("tr");
-            headers.forEach(key => {
+            headers.forEach((key, idx) => {
                 const th = document.createElement("th");
-                th.textContent = key;
                 headerRow.appendChild(th);
+                th.setAttribute("aria-sort", "none");
+
+                  const btn = document.createElement("button");
+                  btn.type = "button";
+                  btn.className = "th-btn";
+                  btn.dataset.col = idx;     // номер колонки
+                  btn.textContent = key;     // надпись
+                  btn.addEventListener("click", onHeaderClick); // <-- обработчик здесь
+
+                  th.appendChild(btn);
+                  headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
             table.appendChild(thead);
@@ -136,4 +146,165 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err);
             container.innerHTML = `<b>Ошибка: ${err.message}</b>`;
         });
+let currentSort = { col: null, dir: 'desc' };
+function onHeaderClick(c){
+    const col = +c.currentTarget.dataset.col;
+    const dir = (currentSort.col === col && currentSort.dir === 'desc') ? 'asc' : 'desc';
+    currentSort = { col, dir };
+    //словарь индекс = название ячейки базы
+    const base_dict = {
+  0:  'factory_number',
+  1:  'model_technic__model_technic_name',
+  2:  'model_engine__model_engine_name',
+  3:  'engine_factory_number',
+  4:  'model_clutch__model_clutch_name',
+  5:  'clutch_factory_number',
+  6:  'driven_axle_model__model_axle_name',
+  7:  'driven_axle_factory_number',
+  8:  'managed_bridge_model__model_bridge_name',
+  9:  'managed_bridge_factory_number',
+  10: 'agreement_number',
+  11: 'agreement_date',
+  12: 'receiver',
+  13: 'receiver_address',
+  14: 'configuration',
+  15: 'client_name',
+  16: 'service_company__model_company_name',
+};
+
+    // перерисовываем таблицу под новый запрос
+    fetch("/api/cars/listsort/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Token ${token}`,
+        },
+        body: JSON.stringify({
+            sort_by: base_dict[col],
+            direction: dir,
+        }),
+
+    })
+        .then(async res => {
+            if (!res.ok) {
+                const txt = await res.text();
+                throw new Error(txt || `HTTP ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (!Array.isArray(data) || data.length === 0) {
+                container.innerHTML = "<b>Ничего не найдено</b>";
+                return;
+            }
+
+            const table = document.createElement("table");
+            table.className = "responsive-table";
+            table.border = "1";
+            table.cellPadding = "8";
+
+            // Заголовки из первого объекта
+            const headers = Object.keys(data[0]);
+
+            // thead
+            const thead = document.createElement("thead");
+            const headerRow = document.createElement("tr");
+            headers.forEach((key, idx) => {
+                const th = document.createElement("th");
+                headerRow.appendChild(th);
+                th.setAttribute("aria-sort", "none");
+
+                  const btn = document.createElement("button");
+                  btn.type = "button";
+                  btn.className = "th-btn";
+                  btn.dataset.col = idx;     // номер колонки
+                  btn.textContent = key;     // надпись
+                  btn.addEventListener("click", onHeaderClick);
+
+                  th.appendChild(btn);
+                  headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // tbody
+            const tbody = document.createElement("tbody");
+
+            data.forEach(row => {
+                const tr = document.createElement("tr");
+
+                headers.forEach(key => {
+                    const td = document.createElement("td");
+                    td.setAttribute("data-label", key); // для мобильной вёрстки
+
+                    if (key === "Зав_номер" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeCarUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "car-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Модель_двигателя" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeEngineUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "engine-model-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Модель_техники" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeModelUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "technic-model-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Модель_транс" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeClutchUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "model-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Ведущий_мост" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeAxleUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "axle-model-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Управляемый_мост" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeBridgeUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "bridge-model-link";
+                        td.appendChild(a);
+                    }
+                    else if (key === "Серв_компания" && row[key]) {
+                        const a = document.createElement("a");
+                        a.href = makeServiceUrl(row[key]);
+                        a.textContent = row[key];
+                        a.className = "service-model-link";
+                        td.appendChild(a);
+                    }
+                    else {
+                        td.textContent = (row[key] ?? "");
+                    }
+
+                    tr.appendChild(td);
+                });
+
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+            container.innerHTML = "";
+            container.appendChild(table);
+        })
+        .catch(err => {
+            console.error(err);
+            container.innerHTML = `<b>Ошибка: ${err.message}</b>`;
+        });
+    }
+
 });

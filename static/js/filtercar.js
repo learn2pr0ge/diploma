@@ -1,18 +1,20 @@
-document.getElementById("filter-form").addEventListener("submit", function(e) {
-    e.preventDefault();
+document.getElementById("filter-form").addEventListener("submit", function(a) {
+    a.preventDefault();
 
     const value = document.getElementById("query").value;
     const filter = document.getElementById("field").value;
     const container = document.getElementById("search-result_memberzone");
-    const token = localStorage.getItem('authToken');
     container.innerHTML = "";
-
+    const token = localStorage.getItem('authToken');
     if (!container) return;
     if (!token) {
         container.innerHTML = '<b>Нет токена авторизации</b>';
         return;
     }
+    fetchFilterCar(value,  filter);
+    });
 
+    function fetchFilterCar(value,  filter, sort='agreement_date',direct='desc', d = undefined) {
     const makeCarUrl = (factoryNumber) => `/memberzone/listcars/${encodeURIComponent(factoryNumber)}/`;
     const makeEngineUrl = (engineNumber) => `/memberzone/listengines/${encodeURIComponent(engineNumber)}/`;
     const makeModelUrl = (modelNumber) => `/memberzone/listmodels/${encodeURIComponent(modelNumber)}/`;
@@ -20,8 +22,10 @@ document.getElementById("filter-form").addEventListener("submit", function(e) {
     const makeAxleUrl = (axleNumber) => `/memberzone/listaxle/${encodeURIComponent(axleNumber)}/`;
     const makeBridgeUrl = (bridgeNumber) => `/memberzone/listbridge/${encodeURIComponent(bridgeNumber)}/`;
     const makeServiceUrl = (serviceNumber) => `/memberzone/listservice/${encodeURIComponent(serviceNumber)}/`;
+    const container = document.getElementById("search-result_memberzone");
+    const token = localStorage.getItem('authToken');
 
-    fetch("/api/cars/filterto/", {
+    fetch("/api/cars/filter/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -31,6 +35,8 @@ document.getElementById("filter-form").addEventListener("submit", function(e) {
         body: JSON.stringify({
             filter: filter,
             value: value,
+            sort_by: sort,
+            direction: direct,
         }),
     })
         .then(async res => {
@@ -57,10 +63,20 @@ document.getElementById("filter-form").addEventListener("submit", function(e) {
             // thead
             const thead = document.createElement("thead");
             const headerRow = document.createElement("tr");
-            headers.forEach(key => {
+            headers.forEach((key, idx) => {
                 const th = document.createElement("th");
-                th.textContent = key;
                 headerRow.appendChild(th);
+                th.setAttribute("aria-sort", "none");
+
+                  const btn = document.createElement("button");
+                  btn.type = "button";
+                  btn.className = "th-btn";
+                  btn.dataset.col = idx;     // номер колонки
+                  btn.textContent = key;     // надпись
+                  btn.addEventListener("click", (d) => onHeaderClickCar(d,value, filter));
+
+                  th.appendChild(btn);
+                  headerRow.appendChild(th);
             });
             thead.appendChild(headerRow);
             table.appendChild(thead);
@@ -143,6 +159,38 @@ document.getElementById("filter-form").addEventListener("submit", function(e) {
             console.error(err);
             container.innerHTML = `<b>Ошибка: ${err.message}</b>`;
         });
-});
+    }
+    let currentSortCar = { col: null, dir: 'desc' };
+
+    function onHeaderClickCar(d,value, filter) {
+        const col = +d.currentTarget.dataset.col;
+        const dir = (currentSortCar.col === col && currentSortCar.dir === 'desc') ? 'asc' : 'desc';
+        currentSortCar = {col, dir};
+        //словарь индекс = название ячейки базы
+        const base_dict = {
+            0: 'factory_number',
+            1: 'model_technic__model_technic_name',
+            2: 'model_engine__model_engine_name',
+            3: 'engine_factory_number',
+            4: 'model_clutch__model_clutch_name',
+            5: 'clutch_factory_number',
+            6: 'driven_axle_model__model_axle_name',
+            7: 'driven_axle_factory_number',
+            8: 'managed_bridge_model__model_bridge_name',
+            9: 'managed_bridge_factory_number',
+            10: 'agreement_number',
+            11: 'agreement_date',
+            12: 'receiver',
+            13: 'receiver_address',
+            14: 'configuration',
+            15: 'client_name',
+            16: 'service_company__model_company_name',
+        };
+        sort = base_dict[col];
+        direct = dir;
+        fetchFilterCar(value, filter, sort , direct);
+    }
+
+
 
 

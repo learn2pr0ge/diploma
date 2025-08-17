@@ -41,6 +41,7 @@ header {
     justify-content: flex-start;
     align-items: flex-start;
     font-family: 'AstraSans', sans-serif;
+    box-sizing: border-box;
 
 }
 
@@ -51,7 +52,7 @@ header {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .logo_company img {
         margin-left: 1px;
         width: 100px;
@@ -60,15 +61,15 @@ header {
 }
 
 .header_phone {
+    transform: translateX(-50%);
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
     margin-top: 10px;
     font-size: 20px;
     text-align: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .header_phone {
         position: absolute;
         left: 50%;
@@ -97,7 +98,7 @@ header {
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .auth-button {
         font-size: 15px;
         padding: 10px 10px;
@@ -121,12 +122,20 @@ header {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+    .main_text{
+        font-size: 18px;
+        margin-top: 60px;
+        left: 40%;
+        transform: translateX(-5%);
+    }
+}
+
+@media (max-width: 600px) {
     .main_text{
         font-size: 16px;
         margin-top: 60px;
         left: 10%;
-        transform: translateX(-5%);
     }
 }
 
@@ -141,6 +150,7 @@ main {
     padding-bottom: 20px;
 }
 
+
 .main_text_2{
     font-size: 30px;
     margin-top: 30px;
@@ -148,7 +158,7 @@ main {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .main_text_2{
         font-size: 15px;
         margin-left: 5px;
@@ -169,7 +179,7 @@ main {
     transform: translateX(-50%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .main_input input {
         width: 120px;
         height: 20px;
@@ -209,7 +219,7 @@ main {
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .main_input button {
         width: 100px;
         height: 25px;
@@ -227,7 +237,7 @@ main {
     transform: translateX(-50%);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .result_text {
         margin-top: 150px;
         font-size: 15px;
@@ -243,7 +253,7 @@ main {
 
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .result_text_2 {
         margin-top: 120px;
         font-size: 15px;
@@ -260,7 +270,7 @@ main {
     gap: 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .search_result {
         margin-top: 20px;
         gap: 10px;
@@ -277,6 +287,7 @@ main {
     font-family: sans-serif;
     margin-top: 20px;
     height: 100%;
+    table-layout: auto;
 }
 
 .responsive-table th,
@@ -292,7 +303,7 @@ main {
     font-weight: bold;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .search-result_memberzone {     /* исправлена опечатка класса */
         margin-top: 20px;
         gap: 10px;
@@ -346,6 +357,14 @@ main {
     }
 }
 
+@media (min-width: 1200px) and (max-width: 1520px) {
+  .responsive-table th,
+  .responsive-table td {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+}
+
 footer {
     width: 100%;
     height: 100px;
@@ -374,7 +393,7 @@ footer {
     padding-bottom: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .api_link {
 
         font-size: 15px;
@@ -386,7 +405,7 @@ footer {
     text-decoration: underline;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .tel_footer {
         margin-left: 1px;
         margin-top: 10px;
@@ -400,7 +419,7 @@ footer {
     padding-bottom: 10px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .copyright {
 
         margin-right: 1px;
@@ -408,24 +427,7 @@ footer {
     }
 }
 
-
-@media (max-width: 1500px) {
-    header {
-        width: 130vw;
-        height: 100px;
-        background-color: #163E6C;
-        color: white;
-    }
-    main {
-        width: 130vw;
-    }
-    footer {
-        width: 130vw;
-
-    }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
      header {
         width: 100%;
         height: 100px;

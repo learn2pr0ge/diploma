@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views import (CarView,  get_token, CarList, TOList, ClaimsList, carlist, FilterView, enginelist, FilterTOView, FilterClaimView, CarCreate,
                     TOCreate, ClaimCreate, EngineCreate, techlist, ModelCreate, clutchlist, ClutchCreate, axlelist,
                     AxleCreate, bridgelist, BridgeCreate, servicelist, ServiceCompanyCreate, tolist,
-                    TOCreatePersonal, claimpart, ClaimPartCreate, claimrecover, ClaimRecoverCreate, ClaimCreatePersonal, apidescription)
+                    TOCreatePersonal, claimpart, ClaimPartCreate, claimrecover, ClaimRecoverCreate, ClaimCreatePersonal,
+                    apidescription, CarListSort, TOListSort, ClaimListSort)
 from django.views.generic import RedirectView
 from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView
 
@@ -17,8 +18,11 @@ urlpatterns = [
     path('cars/', CarView.as_view(), name='cars'),
     path('', get_token, name='memberzone'),
     path('cars/list/', CarList.as_view(), name='carlist'),
+    path('cars/listsort/', CarListSort.as_view(), name='carlistsort'),
     path('cars/to/', TOList.as_view(), name='tolist'),
+    path('cars/tosort/', TOListSort.as_view(), name='tolistsort'),
     path('cars/claims/', ClaimsList.as_view(), name='claimslist'),
+    path('cars/claimssort/', ClaimListSort.as_view(), name='claimslistsort'),
     path('cars/filter/', FilterView.as_view(), name='filter'),
     path('listcars/<str:factory_number>/', carlist, name='carinfo'),
     path('listengines/<str:engine_number>/', enginelist, name='engineinfo'),
