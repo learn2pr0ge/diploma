@@ -457,7 +457,12 @@ class FilterTOView(APIView):
             serializer = TOSerializer(technical_maintenance, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.service_organization:
-            technical_maintenance = Technicalmaintenance.objects.filter(tm_service_company__model_company_name=request.user.service_organization, **{filter: value}).order_by(sort)
+            if filter == "tm_service_company__model_company_name" and value != request.user.service_organization:
+                return Response({'error': 'Нельзя фильтровать по чужой компании'}, status=status.HTTP_403_FORBIDDEN)
+
+            technical_maintenance = Technicalmaintenance.objects.filter(
+                tm_service_company__model_company_name=request.user.service_organization
+            ).filter(**{filter: value}).order_by(sort)
             serializer = TOSerializer(technical_maintenance, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         elif request.user.management:

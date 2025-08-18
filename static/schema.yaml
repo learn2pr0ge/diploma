@@ -79,7 +79,7 @@ paths:
             examples:
               by_factory_number:
                 summary: Поиск по заводскому номеру
-                value: { filter: "factory_number", value: "ЗАВ-1000" }
+                value: { filter: "factory_number", value: "0003", sort_by: "agreement_date", direction: "desc" }
       responses:
         "200":
           description: Список машин

@@ -31,11 +31,15 @@ a:visited {
     }
     main {
         width: 140vw;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
     }
     footer {
         width: 140vw;
+
+    }
+    .button_wrapper {
+        margin-left: 100px;
     }
 }
 
